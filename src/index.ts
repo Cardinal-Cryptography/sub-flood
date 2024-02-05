@@ -31,7 +31,7 @@ function transactionBuilder(api: ApiPromise, nonces: number[], keyPairs: Map<num
         nonces[userNo]++;
         let senderKeyPair = keyPairs.get(userNo)!;
 
-        let transfer = api.tx.balances.transfer(rootKeyPair.address, tokensToSend);
+        let transfer = (api.tx.balances.transferAllowDeath || api.tx.balances.transfer)(rootKeyPair.address, tokensToSend);
         return transfer.sign(senderKeyPair, { nonce });
     }
 }
